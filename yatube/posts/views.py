@@ -163,7 +163,7 @@ def profile_follow(request, username):
         author=author,
         user=request.user,
     ).exists()
-    if author != request.user and follow != True:
+    if author != request.user and follow is not True:
         Follow.objects.create(
             user=request.user,
             author=author,
