@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if is_edit %}Редактирование поста
+{% else %}Новый пост{% endif %}{% endblock %} 
+
+{% block content %} <!DOCTYPE html> 
+
+      <div class="container py-5">
+        <div class="row justify-content-center">
+          <div class="col-md-8 p-5">
+            <div class="card">
+              <div class="card-header">  
+                {% if is_edit %}
+                  Редактировать пост
+                {% else %}
+                  Новый пост
+                {% endif %}      
+              </div>
+              <div class="card-body">  
+                <form method="post" action="{% if is_edit %}{% url 'posts:post_edit' post.id %}
+                  {% else %}{% url 'posts:post_create' %}{% endif %}"
+                  enctype="multipart/form-data">
+                 
+                  {% csrf_token %}
+                 <!-- <input type="hidden" name="csrfmiddlewaretoken" value=""> -->           
+                  <div class="form-group row my-3 p-3">
+                    <label for="id_text">
+                      Текст поста
+                      <span class="required text-danger" >*</span>
+                    </label>
+                    <textarea name="text" cols="40" rows="10" class="form-control" 
+                      required id="id_text"
+                      >{% if is_edit %}{{post.text}}{% else %}{% endif %}</textarea>
+                    <small id="id_text-help" class="form-text text-muted">
+                      {% if is_edit %}
+                        Отредактированный текст поста
+                      {% else %}
+                        Текст нового поста
+                      {% endif %}
+                    </small>
+                  </div>
+                  <div class="form-group row my-3 p-3">
+                    <label for="id_group">
+                      Группа                  
+                    </label>
+                    <select name="group" class="form-control" id="id_group">
+                      <option value="" >---------</option>
+                      {% for group in groups %}
+                        <option value={{group.id}} 
+                          {%if post.group and post.group.id == group.id %} selected="selected" {% endif %}
+                           >{{group.title}}</option>
+                      {%endfor%}
+                    </select>
+                    <small id="id_group-help" class="form-text text-muted">
+                      {% if is_edit %}
+                        Группа поста
+                      {% else %}
+                        Группа, к которой будет относиться пост
+                      {% endif %}
+                    </small>
+                  </div>
+                  <div class="form-group row my-3 p-3">
+                    <label for="id_image">
+                    Картинка                      
+                    </label>
+                    {% if is_edit %} 
+                    На данный момент:{% if post.image %}<a href="{{post.image.url}}">{{post.image}} {% endif %} </a>
+                    <p>
+                    <input type="checkbox" name="image-clear" id="image-clear_id">
+                    <label for="image-clear_id">Очистить</label><br>
+                    Изменить:
+                    {% endif %}
+                    <input type="file" name="image" accept="image/*" class="form-control" id="id_image"
+                     value={{post.image}}>      
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">
+                      {% if is_edit %}
+                        Сохранить
+                      {% else %}
+                        Добавить
+                      {% endif %} 
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endblock %} 
+

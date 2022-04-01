@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load cache %}
+
+
+{% block title %}Это главная страница проекта Yatube{% endblock %} 
+
+{% block content %} 
+  <div class="container py-5">     
+    <h1>Последние обновления на сайте</h1>
+      <article>
+        {% include 'posts/includes/switcher.html' %}
+        {% cache 20 page_obj.page_number index_page %}
+          {% for post in page_obj %}
+            {% include 'posts/includes/post_list.html' %}
+           
+            {% if post.group %}   
+              Группа: 
+              <a href="{% url 'posts:group_list' post.group.slug %}"
+                > {{ post.group.title }}</a>
+            {% endif %} 
+            {% if not forloop.last %}<hr>{% endif %}
+          {% endfor %}
+          {% endcache %}
+          {% include 'posts/includes/paginator.html' %}
+        
+      </article>
+  </div>  
+{% endblock %} 
