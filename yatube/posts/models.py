@@ -14,6 +14,10 @@ class Group(models.Model):
         """Вернуть поля title как строки"""
         return f'{self.title}'
 
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
+
 
 class Post(models.Model):
     """Модель для публикаций"""
@@ -117,3 +121,5 @@ class Follow(models.Model):
                 name='unique_follow',
             )
         ]
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Group, Post
+from .models import Comment, Follow, Group, Post
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -26,5 +26,27 @@ class GroupAdmin(admin.ModelAdmin):
     empty_value_display = '-пусто-'
 
 
+class CommentAdmin(admin.ModelAdmin):
+    """Настройки отображения модели Comment в интерфейсе админа"""
+    list_display = ('post', 'text', 'created', 'author')
+    search_fields = ('created',)
+    empty_value_display = '-пусто-'
+
+
+class FollowAdmin(admin.ModelAdmin):
+    """Настройки отображения модели Follow в интерфейсе админа"""
+    list_display = ('author', 'user', 'total_follower', 'total_following', )
+    search_fields = ('author',)
+    empty_value_display = '-пусто-'
+
+    def total_follower(self, obj):
+        return obj.author.following.count()
+
+    def total_following(self, obj):
+        return obj.author.follower.count()
+
+
 admin.site.register(Post, PostAdmin)
 admin.site.register(Group, GroupAdmin)
+admin.site.register(Comment, CommentAdmin)
+admin.site.register(Follow, FollowAdmin)

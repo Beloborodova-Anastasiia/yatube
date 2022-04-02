@@ -3,7 +3,7 @@
 {% load thumbnail %}
 {% load user_filters %}
 
-{% block title %}Пост {{post_title}}{% endblock %} 
+{% block title %}Пост {{ post_title }}{% endblock %} 
 
 {% block content %} 
 
@@ -11,7 +11,7 @@
         <aside class="col-12 col-md-3">
           <ul class="list-group list-group-flush">
             <li class="list-group-item">
-              Дата публикации: {{post.pub_date|date:"d E Y"}}
+              Дата публикации: {{ post.pub_date|date:"d E Y" }}
             </li>
             {% if post.group %}   
               <li class="list-group-item">
@@ -21,10 +21,10 @@
               </li>
             {% endif %} 
               <li class="list-group-item">
-                Автор: {{post.author.get_full_name}}
+                Автор: {{ post.author.get_full_name }}
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-              Всего постов автора:  <span >{{posts_count}}</span>
+              Всего постов автора:  <span >{{ posts_count }}</span>
             </li>
             <li class="list-group-item">
               <a <a href="{% url 'posts:profile' post.author %}"
@@ -38,13 +38,13 @@
           <img class="card-img my-2" src="{{ im.url }}">
         {% endthumbnail %}
           <p>
-           {{post.text}} 
+           {{ post.text }} 
           </p>
-          {% if user == post.author%}
+          {% if user == post.author %}
             <a class="btn btn-primary" href="{% url 'posts:post_edit' post.id %}">
               редактировать запись
             </a>
-          {%endif%}
+          {% endi f%}
 
           {% if user.is_authenticated%}
             <div class="card my-4">
@@ -60,22 +60,22 @@
                 </form>
               </div>
             </div>
-          {%endif%}
+          {% endif %}
 
-          {%for comment in comments%}
+          {% for comment in comments %}
             <div class="media mb-4">
               <div class="media-body">
                 <h5 class="mt-0">
-                  <a href="{%url 'posts:profile' comment.author.username%}">
-                    {{comment.author.username}}
+                  <a href="{% url 'posts:profile' comment.author.username %}">
+                    {{ comment.author.username }}
                   </a>
                 </h5>
                 <p>
-                  {{comment.text}}
+                  {{ comment.text }}
                 </p>
               </div>
             </div>
-          {%endfor%}
+          {% endfor %}
         </article>
       </div> 
 

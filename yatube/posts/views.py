@@ -10,12 +10,14 @@ from .models import Follow, Group, Post, User
 def index(request):
     """View-функция для отображения главной страницы"""
     template = 'posts/index.html'
+    index = True
     posts = Post.objects.select_related('group').order_by('-pub_date')
     paginator = Paginator(posts, settings.POSTS_PAGE_LIMIT)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
         'page_obj': page_obj,
+        'index': index,
     }
     return render(request, template, context)
 
@@ -43,16 +45,12 @@ def profile(request, username):
     paginator = Paginator(posts, settings.POSTS_PAGE_LIMIT)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    if request.user.is_anonymous:
-        following = False
-    else:
-        if Follow.objects.filter(
+    following = False
+    if request.user.is_anonymous is not True:
+        following = Follow.objects.filter(
             user=request.user,
             author=author,
-        ).exists():
-            following = True
-        else:
-            following = False
+        ).exists()
     if author == request.user or request.user.is_anonymous:
         show_button = False
     else:
@@ -108,7 +106,7 @@ def post_create(request):
 @login_required
 def post_edit(request, post_id):
     template = 'posts/create_post.html'
-    post = Post.objects.get(id=post_id)
+    post = get_object_or_404(Post, id=post_id)
     if request.user != post.author:
         return redirect('posts:post_detail', post.id)
     is_edit: bool = True
@@ -133,7 +131,7 @@ def post_edit(request, post_id):
 
 @login_required
 def add_comment(request, post_id):
-    post = Post.objects.get(id=post_id)
+    post = get_object_or_404(Post, id=post_id)
     form = CommentForm(request.POST or None)
     if form.is_valid():
         comment = form.save(commit=False)
@@ -146,25 +144,23 @@ def add_comment(request, post_id):
 @login_required
 def follow_index(request):
     template = 'posts/follow.html'
+    follow = True
     posts = Post.objects.filter(author__following__user=request.user)
     paginator = Paginator(posts, settings.POSTS_PAGE_LIMIT)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {
         'page_obj': page_obj,
+        'follow': follow,
     }
     return render(request, template, context)
 
 
 @login_required
 def profile_follow(request, username):
-    author = User.objects.get(username=username)
-    follow = Follow.objects.filter(
-        author=author,
-        user=request.user,
-    ).exists()
-    if author != request.user and follow is not True:
-        Follow.objects.create(
+    author = get_object_or_404(User, username=username)
+    if author != request.user:
+        Follow.objects.get_or_create(
             user=request.user,
             author=author,
         )
@@ -173,10 +169,8 @@ def profile_follow(request, username):
 
 @login_required
 def profile_unfollow(request, username):
-    author = User.objects.get(username=username)
-    Follow.objects.get(
-        user=request.user,
-        author=author,
-    ).delete()
+    author = get_object_or_404(User, username=username)
+    follow = get_object_or_404(Follow, user=request.user, author=author,)
+    follow.delete()
 
     return redirect('posts:profile', username=username)
