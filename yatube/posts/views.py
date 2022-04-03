@@ -46,15 +46,12 @@ def profile(request, username):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     following = False
-    if request.user.is_anonymous is not True:
+    if not request.user.is_anonymous:
         following = Follow.objects.filter(
             user=request.user,
             author=author,
         ).exists()
-    if author == request.user or request.user.is_anonymous:
-        show_button = False
-    else:
-        show_button = True
+    show_button = author != request.user and not request.user.is_anonymous
     context = {
         'page_obj': page_obj,
         'posts_count': posts_count,
