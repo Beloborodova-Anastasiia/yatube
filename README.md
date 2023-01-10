@@ -1,6 +1,7 @@
 # Проект социальной сети "YATUBE"
 
-[![CI](https://github.com/Beloborodova-Anastasiia/yatube/actions/workflows/python-app.yml/badge.svg?branch=master)](https://github.com/Beloborodova-Anastasiia/yatube/workflows/python-app.yml)
+![Workflow status](https://github.com/Beloborodova-Anastasiia/yatube/actions/workflows/yatube_workflow.yml/badge.svg
+)
 
 ### Описание
 
