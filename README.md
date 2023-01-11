@@ -1,13 +1,13 @@
-# Проект социальной сети "YATUBE"
+# Social network "YATUBE"
 
 ![Workflow status](https://github.com/Beloborodova-Anastasiia/yatube/actions/workflows/yatube_workflow.yml/badge.svg
 )
 
-### Описание
+### Description
 
-Благодаря этому проекту пользователи смогут создавать учетную запись, публиковать заметки в личный дневник, подписываться на других авторов, отмечать и комментировать понравившиеся записи. Также записи можно будет отправлять в сообщества, где можно прочитать заметки разных авторов.
+Social network "Yatube" is for keeping a diary. Users can create an account, publish notes, subscribe on another author, tag and comment on fovourite notesб add notice to the special groups.
 
-### Технологии
+### Technologies
 
 Python 3.7
 
