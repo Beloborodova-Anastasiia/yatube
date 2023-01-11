@@ -5,10 +5,13 @@
 
 {% block title %}Это главная страница проекта Yatube{% endblock %} 
 
+
 {% block content %} 
   <div class="container py-5">     
     <h1>Последние обновления на сайте</h1>
       <article>
+      {% load cache %}
+      {% cache 20 index_page %}
         {% include 'posts/includes/switcher.html' %}
           {% for post in page_obj %}
             {% include 'posts/includes/post_list.html' %}
@@ -21,7 +24,7 @@
             {% if not forloop.last %}<hr>{% endif %}
           {% endfor %}
           {% include 'posts/includes/paginator.html' %}
-        
+      {% endcache %}  
       </article>
   </div>  
 {% endblock %} 
