@@ -5,7 +5,7 @@
 
 ### Description
 
-Social network "Yatube" is for keeping a diary. Users can create an account, publish notes, subscribe on another author, tag and comment on fovourite notesб add notice to the special groups.
+Social network "Yatube" is for keeping a diary. Users can create an account, publish notes, subscribe on another author, tag and comment on fovourite notes, add notice to the special groups.
 
 ### Technologies
 
