@@ -106,5 +106,3 @@ http://127.0.0.1:8000/admin/
 ### Author
 
 Anastasiia Beloborodova 
-
-anastasiia.beloborodova@gmail.com
